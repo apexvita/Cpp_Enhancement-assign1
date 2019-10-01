@@ -1,0 +1,356 @@
+/* Q-1 create a class with constructors and destructors.
+create array of instances and observe how program behaves.
+*/
+#include<iostream>
+using namespace std;
+#include<iostream>
+using namespace std;
+class A
+{
+private:
+		int num;
+public:
+		void setNum(int k)
+		{
+			this->num=k;
+		}
+		int getNum()
+		{
+			return num;
+		}
+		A()
+		{
+			cout<<"In default constructor"<<endl;
+		}
+		A(int k)
+		{
+			this->num=k;
+			cout<<"In parameterized constructor"<<num<<endl;
+		}
+		~A()
+		{
+			cout<<"In destructor"<<num<<endl;
+		}
+};
+int main()
+{
+	A a[3];
+	int n;
+	cout<<"Enter a values"<<endl;
+	for(int i=0;i<3;i++)
+	{
+		cin>>n;
+		a[i].setNum(n);
+	}
+
+
+}
+
+***********************************************************************************************************************************************
+
+/*2) create a class with constructors and destructor.
+create 2 instances on stack and 1 instance on heap. observe the invocation of constructors and destructors.*/
+
+#include<iostream>
+using namespace std;
+class B
+{
+private:
+	int num;
+public:
+	void setNum(int k)
+	{
+		this->num=k;
+	}
+	int getNum()
+	{
+		return num;
+	}
+	B()
+	{
+		cout<<"Inside default"<<endl;
+	}
+	B(int k)
+	{
+		this->num=k;
+		cout<<"Inside parameterised"<<num<<endl;
+	}
+	~B()
+	{
+		cout<<"Inside destructor"<<num<<endl;
+	}
+};
+int main()
+{
+	B b1;
+	B b2(100);
+	B *b3=new B(1000);
+	delete b3;
+}
+
+
+*******************************************************************************************************************************************
+/*3)create a class "MyClass1"
+with members and member function "disp1().
+create another class "MyClass2"
+with members and member function "disp2().
+now try to invoke disp1() from disp2()
+in the main() function, create instances of both the classes and invoke their member functions.
+*/
+
+#include<iostream>
+using namespace std;
+class MyClass1
+{
+private:
+	int num;
+public:
+	void setNum(int k)
+	{
+		this->num=k;
+	}
+	int getNum()
+	{
+		return num;
+	}
+
+	void disp1()
+	{
+		cout<<"In display1"<<endl;
+	}
+};
+
+class MyClass2
+{
+private:
+	int num;
+public:
+	void setNum(int k)
+	{
+		this->num=k;
+	}
+	int getNum()
+	{
+		return num;
+	}
+
+	void disp2(MyClass1 &ref)
+	{
+		ref.disp1();
+		cout<<"In display2"<<endl;
+	}
+};
+
+int main()
+{
+	MyClass1 m1;
+	MyClass2 m2;
+	m2.disp2(m1);
+}
+
+******************************************************************************************************************************
+
+/*4) create a class.
+accept from user, how many instances are required.
+Accordingly create array of instances dynamically.
+Now make sure that u call destructor for each and every instances.*/
+#include<iostream>
+using namespace std;
+class Employee
+{
+private:
+	int empId;
+public:
+	void setempId(int k)
+	{
+		this->empId=k;
+	}
+	int getempId()
+	{
+		return empId;
+	}
+
+	Employee()
+	{
+		cout<<"In default"<<endl;
+	}
+	Employee(int k)
+	{
+		cout<<"In parameterised"<<endl;
+		this->empId=k;
+		
+	}
+	~Employee()
+	{
+		cout<<"In destructor"<<empId<<endl;
+	}
+};
+
+int main()
+{
+	Employee *arr;
+	Employee e(10);
+	int i,rec,no;
+
+	cout<<"enter record"<<endl;
+	cin>>rec;
+
+	arr=new Employee[rec];
+	for(i=0;i<rec;i++)
+	{
+		cout<<"array"<<endl;
+		cin>>no;
+		arr[i].setempId(no);
+	}
+	for(i=0;i<rec;i++)
+	{
+		cout<<arr[i].getempId()<<endl;
+	}
+	delete []arr;
+	return 0;
+
+}
+
+************************************************************************************************************************
+
+/*5) create a class, define different types of constructors. in main create n number of objects. 
+At the end display how many constructors are created for a class.*/
+
+#include<iostream>
+using namespace std;
+class Myclass
+{
+private:
+	int num;
+	static int count;
+public:
+	int getcount()
+	{
+		return count;
+	}
+	Myclass()
+	{
+		cout<<"in default"<<num<<endl;
+		count++;
+	}
+	Myclass(int k)
+	{
+		this->num=k;
+		cout<<"in parameterized"<<num<<endl;
+		count++;
+	}
+
+};
+int Myclass::count=0;
+
+int main()
+{
+	Myclass *d1=new Myclass;
+	Myclass *d2=new Myclass(200);
+
+	cout<<"No.of constructors are:"<<d1->getcount()<<endl;
+
+	delete d1;
+	delete d2;
+}
+
+
+********************************************************************************************************************
+
+/*6) Developer Side
+	create a class "book" with
+		int bookid
+		char *bookname
+		int price
+
+	define parameterized constructor only for this class.
+	define 3 getter functions.
+
+create necessary header and lib file and distribute it to the client.
+
+Client Side
+
+	 create 2 instances
+	1 on stack and 1 on heap.
+	pass the necessary values while creating instances.
+	call the getter functions.
+*/
+
+***************************************************************************************
+//Header file
+
+class book
+{
+private:
+	int bookid;
+	char *bookname;
+	int price;
+public:
+	book(int, char*, int);
+	~book();
+	book(book &ref);
+	int getBookid();
+	char* getBookname();
+	int getPrice();
+};
+
+
+//Source File developer
+
+#include<iostream>
+#include "Header.h"
+#include<String.h>
+using namespace std;
+book::book(int k, char *str, int p)
+{
+	cout<<"In parameterised"<<endl;
+	this->bookid=k;
+	bookname= new char[strlen(str)+1];
+	strcpy(bookname,str);
+	this->price=p;
+}
+
+int book::getBookid()
+{
+	return this->bookid;
+}
+
+char* book::getBookname()
+{
+	return this->bookname;
+}
+
+int book::getPrice()
+{
+	return this->price;
+}
+
+book::~book()
+{
+	cout<<"In Destructor"<<endl;
+}
+book::book(book &ref)
+{
+	bookid=ref.bookid;
+	bookname=new char[strlen(ref.bookname)+1];
+	strcpy(bookname,ref.bookname);
+	price=ref.price;
+	cout<<"In COpy Constructor"<<"\t"<<ref.bookname<<endl;
+}
+
+
+
+//client side
+#include<iostream>
+#include "D:\ApekshaM\client\Header.h"
+using namespace std;
+
+int main()
+{
+	puts("Hii.. Strarting from here");
+	book b(10,"Java",600);
+	cout<<b.getBookid()<<endl;
+	cout<<b.getBookname()<<endl;
+    cout<<b.getPrice()<<endl;
+	book b2=b;
+}
